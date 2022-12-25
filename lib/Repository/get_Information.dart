@@ -7,6 +7,7 @@ class GetInformationRepository {
   GetInformationRepository._();
 
   static int? status;
+  static String? error;
 
   static getInformation(String country) async {
     try {
@@ -23,7 +24,7 @@ class GetInformationRepository {
       WeatherModel info = WeatherModel.fromJson(data);
       return info;
     } catch (s) {
-      print(status);
+      error=s.toString();
       print(s);
     }
   }

@@ -9,10 +9,8 @@ abstract class Style{
   static const whiteColor = Color(0xffFFFFFF);
   static const blackColor = Color(0xff000000);
   static const primaryColor =Color(0xffF2F2F7);
-  static const textLightColor =Color(0xff24243D);
-  static const bgDarkColor =Color(0xff1A1B31);
-  static const brandColor =Color(0xffEFBE24);
-  static const brandColorAccent =Color(0xffEFBE24);
+  static const brandColor =Color(0xff3E2A7E);
+  static const textColor =Color(0xff9F9FA5);
 
 
   // ------------------ Gradient -----------------//
@@ -24,13 +22,6 @@ abstract class Style{
         Color(0xB33A3F54),
         Color(0xff3A3F54),
         Color(0xff3A3F54),
-      ]);
-  static const buttonGradient = LinearGradient(
-      begin: Alignment.topLeft,
-      end: Alignment.bottomRight,
-      colors: [
-        brandColor,
-        brandColorAccent,
       ]);
   static const secondaryGradient = LinearGradient(
       begin: Alignment.topLeft,
