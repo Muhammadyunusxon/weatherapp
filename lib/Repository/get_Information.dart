@@ -11,7 +11,7 @@ class GetInformationRepository {
   static getInformation(String country) async {
     try {
       final url = Uri.parse(
-          "https://api.weatherapi.com/v1/forecast.json?key=0aafe5ca2dc742cb8d7125331222212&q=${country}");
+          "https://api.weatherapi.com/v1/forecast.json?key=0aafe5ca2dc742cb8d7125331222212&q=$country");
       final res = await http.get(url);
       var data;
       if (res.statusCode == 200) {

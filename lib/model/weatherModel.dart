@@ -178,42 +178,22 @@ class Condition {
     this.code,
   });
 
-  TextWeather? text;
-  IconWeather? icon;
+  String? text;
+  String? icon;
   int? code;
 
   factory Condition.fromJson(Map<String, dynamic> json) => Condition(
-        text: textValues.map[json["text"]],
-        icon: iconValues.map[json["icon"]],
+        text: json["text"],
+        icon: json["icon"],
         code: json["code"],
       );
 
   Map<String, dynamic> toJson() => {
-        "text": textValues.reverse[text],
-        "icon": iconValues.reverse[icon],
+        "text": text,
+        "icon": icon,
         "code": code,
       };
 }
-
-enum IconWeather {
-  CDN_WEATHERAPI_COM_WEATHER_64_X64_DAY_143_PNG,
-  CDN_WEATHERAPI_COM_WEATHER_64_X64_DAY_113_PNG,
-  CDN_WEATHERAPI_COM_WEATHER_64_X64_NIGHT_113_PNG
-}
-
-final iconValues = EnumValues({
-  "//cdn.weatherapi.com/weather/64x64/day/113.png":
-      IconWeather.CDN_WEATHERAPI_COM_WEATHER_64_X64_DAY_113_PNG,
-  "//cdn.weatherapi.com/weather/64x64/day/143.png":
-      IconWeather.CDN_WEATHERAPI_COM_WEATHER_64_X64_DAY_143_PNG,
-  "//cdn.weatherapi.com/weather/64x64/night/113.png":
-      IconWeather.CDN_WEATHERAPI_COM_WEATHER_64_X64_NIGHT_113_PNG
-});
-
-enum TextWeather { MIST, SUNNY, CLEAR }
-
-final textValues =
-    EnumValues({"Clear": TextWeather.CLEAR, "Mist": TextWeather.MIST, "Sunny": TextWeather.SUNNY});
 
 class Forecast {
   Forecast({
