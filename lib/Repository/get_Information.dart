@@ -23,6 +23,7 @@ class GetInformationRepository {
       WeatherModel info = WeatherModel.fromJson(data);
       return info;
     } catch (s) {
+      print(status);
       print(s);
     }
   }
