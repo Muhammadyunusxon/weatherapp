@@ -23,6 +23,49 @@ class WeatherModel {
         "forecast": forecast?.toJson(),
       };
 }
+class Location {
+  Location({
+    this.name,
+    this.region,
+    this.country,
+    this.lat,
+    this.lon,
+    this.tzId,
+    this.localtimeEpoch,
+    this.localtime,
+  });
+
+  String? name;
+  String? region;
+  String? country;
+  double? lat;
+  double? lon;
+  String? tzId;
+  int? localtimeEpoch;
+  String? localtime;
+
+  factory Location.fromJson(Map<String, dynamic> json) => Location(
+    name: json["name"],
+    region: json["region"],
+    country: json["country"],
+    lat: json["lat"].toDouble(),
+    lon: json["lon"].toDouble(),
+    tzId: json["tz_id"],
+    localtimeEpoch: json["localtime_epoch"],
+    localtime: json["localtime"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "name": name,
+    "region": region,
+    "country": country,
+    "lat": lat,
+    "lon": lon,
+    "tz_id": tzId,
+    "localtime_epoch": localtimeEpoch,
+    "localtime": localtime,
+  };
+}
 
 class Current {
   Current({
@@ -51,29 +94,29 @@ class Current {
     this.gustKph,
   });
 
-  int? lastUpdatedEpoch;
+  num? lastUpdatedEpoch;
   String? lastUpdated;
-  int? tempC;
-  int? tempF;
-  int? isDay;
+  num? tempC;
+  num? tempF;
+  num? isDay;
   Condition? condition;
-  double? windMph;
-  double? windKph;
-  int? windDegree;
+  num? windMph;
+  num? windKph;
+  num? windDegree;
   String? windDir;
-  int? pressureMb;
-  double? pressureIn;
-  int? precipMm;
-  int? precipIn;
-  int? humidity;
-  int? cloud;
-  double? feelslikeC;
-  double? feelslikeF;
-  int? visKm;
-  int? visMiles;
-  int? uv;
-  double? gustMph;
-  double? gustKph;
+  num? pressureMb;
+  num? pressureIn;
+  num? precipMm;
+  num? precipIn;
+  num? humidity;
+  num? cloud;
+  num? feelslikeC;
+  num? feelslikeF;
+  num? visKm;
+  num? visMiles;
+  num? uv;
+  num? gustMph;
+  num? gustKph;
 
   factory Current.fromJson(Map<String, dynamic> json) => Current(
         lastUpdatedEpoch: json["last_updated_epoch"],
@@ -135,8 +178,8 @@ class Condition {
     this.code,
   });
 
-  Text? text;
-  Icon? icon;
+  TextWeather? text;
+  IconWeather? icon;
   int? code;
 
   factory Condition.fromJson(Map<String, dynamic> json) => Condition(
@@ -152,7 +195,7 @@ class Condition {
       };
 }
 
-enum Icon {
+enum IconWeather {
   CDN_WEATHERAPI_COM_WEATHER_64_X64_DAY_143_PNG,
   CDN_WEATHERAPI_COM_WEATHER_64_X64_DAY_113_PNG,
   CDN_WEATHERAPI_COM_WEATHER_64_X64_NIGHT_113_PNG
@@ -160,17 +203,17 @@ enum Icon {
 
 final iconValues = EnumValues({
   "//cdn.weatherapi.com/weather/64x64/day/113.png":
-      Icon.CDN_WEATHERAPI_COM_WEATHER_64_X64_DAY_113_PNG,
+      IconWeather.CDN_WEATHERAPI_COM_WEATHER_64_X64_DAY_113_PNG,
   "//cdn.weatherapi.com/weather/64x64/day/143.png":
-      Icon.CDN_WEATHERAPI_COM_WEATHER_64_X64_DAY_143_PNG,
+      IconWeather.CDN_WEATHERAPI_COM_WEATHER_64_X64_DAY_143_PNG,
   "//cdn.weatherapi.com/weather/64x64/night/113.png":
-      Icon.CDN_WEATHERAPI_COM_WEATHER_64_X64_NIGHT_113_PNG
+      IconWeather.CDN_WEATHERAPI_COM_WEATHER_64_X64_NIGHT_113_PNG
 });
 
-enum Text { MIST, SUNNY, CLEAR }
+enum TextWeather { MIST, SUNNY, CLEAR }
 
 final textValues =
-    EnumValues({"Clear": Text.CLEAR, "Mist": Text.MIST, "Sunny": Text.SUNNY});
+    EnumValues({"Clear": TextWeather.CLEAR, "Mist": TextWeather.MIST, "Sunny": TextWeather.SUNNY});
 
 class Forecast {
   Forecast({
@@ -199,7 +242,7 @@ class Forecastday {
   });
 
   DateTime? date;
-  int? dateEpoch;
+  num? dateEpoch;
   Day? day;
   Astro? astro;
   List<Hour>? hour;
@@ -282,26 +325,26 @@ class Day {
     this.uv,
   });
 
-  int? maxtempC;
-  double? maxtempF;
-  double? mintempC;
-  double? mintempF;
-  double? avgtempC;
-  double? avgtempF;
-  int? maxwindMph;
-  double? maxwindKph;
-  int? totalprecipMm;
-  int? totalprecipIn;
-  int? totalsnowCm;
-  int? avgvisKm;
-  int? avgvisMiles;
-  int? avghumidity;
-  int? dailyWillItRain;
-  int? dailyChanceOfRain;
-  int? dailyWillItSnow;
-  int? dailyChanceOfSnow;
+  num? maxtempC;
+  num? maxtempF;
+  num? mintempC;
+  num? mintempF;
+  num? avgtempC;
+  num? avgtempF;
+  num? maxwindMph;
+  num? maxwindKph;
+  num? totalprecipMm;
+  num? totalprecipIn;
+  num? totalsnowCm;
+  num? avgvisKm;
+  num? avgvisMiles;
+  num? avghumidity;
+  num? dailyWillItRain;
+  num? dailyChanceOfRain;
+  num? dailyWillItSnow;
+  num? dailyChanceOfSnow;
   Condition? condition;
-  int? uv;
+  num? uv;
 
   factory Day.fromJson(Map<String, dynamic> json) => Day(
         maxtempC: json["maxtemp_c"],
@@ -387,39 +430,39 @@ class Hour {
     this.uv,
   });
 
-  int? timeEpoch;
+  num? timeEpoch;
   String? time;
-  double? tempC;
-  double? tempF;
-  int? isDay;
+  num? tempC;
+  num? tempF;
+  num? isDay;
   Condition? condition;
-  double? windMph;
-  double? windKph;
-  int? windDegree;
+  num? windMph;
+  num? windKph;
+  num? windDegree;
   String? windDir;
-  int? pressureMb;
-  double? pressureIn;
-  int? precipMm;
-  int? precipIn;
-  int? humidity;
-  int? cloud;
-  double? feelslikeC;
-  double? feelslikeF;
-  double? windchillC;
-  double? windchillF;
-  double? heatindexC;
-  double? heatindexF;
-  double? dewpointC;
-  double? dewpointF;
-  int? willItRain;
-  int? chanceOfRain;
-  int? willItSnow;
-  int? chanceOfSnow;
-  int? visKm;
-  int? visMiles;
-  double? gustMph;
-  double? gustKph;
-  int? uv;
+  num? pressureMb;
+  num? pressureIn;
+  num? precipMm;
+  num? precipIn;
+  num? humidity;
+  num? cloud;
+  num? feelslikeC;
+  num? feelslikeF;
+  num? windchillC;
+  num? windchillF;
+  num? heatindexC;
+  num? heatindexF;
+  num? dewpointC;
+  num? dewpointF;
+  num? willItRain;
+  num? chanceOfRain;
+  num? willItSnow;
+  num? chanceOfSnow;
+  num? visKm;
+  num? visMiles;
+  num? gustMph;
+  num? gustKph;
+  num? uv;
 
   factory Hour.fromJson(Map<String, dynamic> json) => Hour(
         timeEpoch: json["time_epoch"],
@@ -494,49 +537,7 @@ class Hour {
       };
 }
 
-class Location {
-  Location({
-    this.name,
-    this.region,
-    this.country,
-    this.lat,
-    this.lon,
-    this.tzId,
-    this.localtimeEpoch,
-    this.localtime,
-  });
 
-  String? name;
-  String? region;
-  String? country;
-  double? lat;
-  double? lon;
-  String? tzId;
-  int? localtimeEpoch;
-  String? localtime;
-
-  factory Location.fromJson(Map<String, dynamic> json) => Location(
-        name: json["name"],
-        region: json["region"],
-        country: json["country"],
-        lat: json["lat"].toDouble(),
-        lon: json["lon"].toDouble(),
-        tzId: json["tz_id"],
-        localtimeEpoch: json["localtime_epoch"],
-        localtime: json["localtime"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "name": name,
-        "region": region,
-        "country": country,
-        "lat": lat,
-        "lon": lon,
-        "tz_id": tzId,
-        "localtime_epoch": localtimeEpoch,
-        "localtime": localtime,
-      };
-}
 
 class EnumValues<T> {
   Map<String, T> map;
