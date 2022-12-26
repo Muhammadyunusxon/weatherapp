@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weather/Components/BottomNavyBar.dart';
 import 'package:weather/Components/backgraund.dart';
+import 'package:weather/Pages/bottomPage.dart';
 import 'package:weather/model/weatherModel.dart';
 
 import '../Repository/get_Information.dart';
@@ -46,12 +47,22 @@ class _HomePageState extends State<HomePage> {
       body: BackgroundImage(
         child: error == "Failed host lookup: 'api.weatherapi.com'"
             ? Center(
-                child: Text(
-                'Oops! Weather app did not respond: please try again!',
-                style: Style.textStyleSemiBold(size: 36.sp),
-              ))
-            : isLoading
-                ? const Center(child: CircularProgressIndicator())
+                child: Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 24.w),
+                  child: Text(
+                  'Oops! Weather app did not respond: please try again!',
+                  style: Style.textStyleSemiBold(size: 28.sp),
+              ),
+                ))
+            :status==400 ? Center(
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 24.w),
+              child: Text(
+                'Oops! Not found please try again!',
+                style: Style.textStyleSemiBold(size: 28.sp),
+              ),
+            ))  :isLoading
+                ? const Center(child: CircularProgressIndicator(color: Colors.white,))
                 : SafeArea(
                     child: Column(
                       children: [
@@ -103,130 +114,7 @@ class _HomePageState extends State<HomePage> {
                                 right: 0,
                                 child: SizedBox(
                                     height: 350.h,
-                                    child: Stack(
-                                      children: [
-                                        Image.asset(
-                                          'assets/image/Modal.png',
-                                          fit: BoxFit.cover,
-                                        ),
-                                        Column(
-                                          children: [
-                                            49.verticalSpace,
-                                            20.verticalSpace,
-                                            SizedBox(
-                                              height: 146,
-                                              child: ListView.builder(
-                                                  itemCount: weatherInfo
-                                                          ?.forecast
-                                                          ?.forecastday
-                                                          ?.first
-                                                          .hour
-                                                          ?.length ??
-                                                      0,
-                                                  padding: EdgeInsets.only(
-                                                      left: 20.w),
-                                                  scrollDirection:
-                                                      Axis.horizontal,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    return GestureDetector(
-                                                      onTap: () {
-                                                      },
-                                                      child: Container(
-                                                        height: 146.h,
-                                                        width: 60.w,
-                                                        padding:  EdgeInsets.symmetric(
-                                                                vertical: 16.h),
-                                                        margin: EdgeInsets.only(
-                                                            right: 12.w),
-                                                        decoration: BoxDecoration(
-                                                            borderRadius:
-                                                                BorderRadius.circular(
-                                                                    30.r),
-                                                            color: weatherInfo?.forecast?.forecastday?.first.hour?[index].time?.substring(
-                                                                            10,
-                                                                            13) ==
-                                                                    weatherInfo
-                                                                        ?.current
-                                                                        ?.lastUpdated
-                                                                        ?.substring(
-                                                                            10, 13)
-                                                                ? const Color(
-                                                                    0xff48319D)
-                                                                : const Color(0xff48319D)
-                                                                    .withOpacity(
-                                                                        0.55)),
-                                                        child: Column(
-                                                          mainAxisAlignment:
-                                                              MainAxisAlignment
-                                                                  .spaceBetween,
-                                                          children: [
-                                                            Text(
-                                                              weatherInfo
-                                                                          ?.forecast
-                                                                          ?.forecastday
-                                                                          ?.first
-                                                                          .hour?[
-                                                                              index]
-                                                                          .time
-                                                                          ?.substring(
-                                                                              10,
-                                                                              13) ==
-                                                                      weatherInfo
-                                                                          ?.current
-                                                                          ?.lastUpdated
-                                                                          ?.substring(
-                                                                              10,
-                                                                              13)
-                                                                  ? 'Now'
-                                                                  : weatherInfo
-                                                                          ?.forecast
-                                                                          ?.forecastday
-                                                                          ?.first
-                                                                          .hour?[
-                                                                              index]
-                                                                          .time
-                                                                          ?.substring(
-                                                                              10) ??
-                                                                      '',
-                                                              style: Style
-                                                                  .textStyleNormal(
-                                                                      size: 15
-                                                                          .sp),
-                                                            ),
-                                                            Text(
-                                                              weatherInfo
-                                                                      ?.forecast
-                                                                      ?.forecastday
-                                                                      ?.first
-                                                                      .hour?[
-                                                                          index]
-                                                                      .condition
-                                                                      ?.text ??
-                                                                  '',
-                                                              style: Style
-                                                                  .textStyleNormal(
-                                                                      size: 14
-                                                                          .sp),
-                                                            ),
-                                                            Text(
-                                                              '${weatherInfo?.forecast?.forecastday?.first.hour?[index].tempC?.toString().split('.')[0] ?? ''}°',
-                                                              style: Style
-                                                                  .textStyleNormal(
-
-                                                                      size: 20
-                                                                          .sp),
-                                                            ),
-                                                          ],
-                                                        ),
-                                                      ),
-                                                    );
-                                                  }),
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    )),
+                                    child: BottomPage( weatherInfo: weatherInfo,)),
                               ),
                             ],
                           ),

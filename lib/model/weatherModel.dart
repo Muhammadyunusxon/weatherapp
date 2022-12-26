@@ -179,7 +179,7 @@ class Condition {
   });
 
   String? text;
-  String? icon;
+  String  ? icon;
   int? code;
 
   factory Condition.fromJson(Map<String, dynamic> json) => Condition(

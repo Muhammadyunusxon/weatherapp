@@ -10,6 +10,7 @@ abstract class Style{
   static const blackColor = Color(0xff000000);
   static const primaryColor =Color(0xffF2F2F7);
   static const brandColor =Color(0xff3E2A7E);
+  static const secondaryColor =Color(0xff2E335A);
   static const textColor =Color(0xff9F9FA5);
 
 
@@ -30,6 +31,19 @@ abstract class Style{
         Color(0xffE8E8E8),
         Color(0xffCDCDCD),
       ]);
+
+  // ------------------ Gradient -----------------//
+  static List<BoxShadow> hourlyShadow = [
+    BoxShadow(
+      offset: const Offset(5, 4),
+      color: Style.blackColor.withOpacity(0.25),
+      blurRadius: 10,
+    ),
+    BoxShadow(
+      offset: const Offset(1,1),
+      color: Style.whiteColor.withOpacity(0.1),
+    )
+  ];
 
 
   static textStyleNormal(
