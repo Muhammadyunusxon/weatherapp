@@ -5,12 +5,13 @@ import 'package:weather/Components/SquareInfoContainer.dart';
 import 'package:weather/Components/hourly.dart';
 import 'package:weather/model/weatherModel.dart';
 
+import '../Components/ShimmerItem.dart';
 import '../Style/style.dart';
 
 class BottomPage extends StatelessWidget {
   final WeatherModel? weatherInfo;
-
-  const BottomPage({Key? key, required this.weatherInfo}) : super(key: key);
+  final bool isLoading;
+  const BottomPage({Key? key, required this.weatherInfo, required this.isLoading}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +22,7 @@ class BottomPage extends StatelessWidget {
           fit: BoxFit.cover,
         ),
         ListView(
-          physics: const BouncingScrollPhysics(),
+          physics: const NeverScrollableScrollPhysics(),
           padding: EdgeInsets.only(top: 5.h),
           children: [
             Container(
@@ -37,13 +38,18 @@ class BottomPage extends StatelessWidget {
               height: 180,
               child: ListView.builder(
                   physics: const BouncingScrollPhysics(),
-                  itemCount:
+                  itemCount: isLoading? 24:
                       weatherInfo?.forecast?.forecastday?.first.hour?.length ??
                           0,
                   padding: EdgeInsets.only(left: 20.w, bottom: 22.h, top: 12.h),
                   scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
-                    return HourlyComponent(
+                    return isLoading? Padding(
+                      padding: const EdgeInsets.only(right: 12,),
+                      child: ClipRRect(
+                          borderRadius: BorderRadius.circular(30),
+                          child: const ShimmerItem(height: 146, width: 60)),
+                    ) : HourlyComponent(
                         weatherInfo: weatherInfo, index: index);
                   }),
             ),

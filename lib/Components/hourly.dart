@@ -51,11 +51,9 @@ class HourlyComponent extends StatelessWidget {
                   '',
               style: Style.textStyleNormal(size: 15.sp),
             ),
-            Text(
-                weatherInfo?.forecast?.forecastday?.first
-                    .hour?[index].condition?.text ??
-                    '',
-                style: Style.textStyleNormal(size: 14.sp)),
+            Image.network(
+                "https:${weatherInfo?.forecast?.forecastday?.first.hour?[index].condition?.icon?? ''}",
+            ),
             Text(
               '${weatherInfo?.forecast?.forecastday?.first.hour?[index].tempC?.toString().split('.')[0] ?? ''}°',
               style: Style.textStyleNormal(size: 20.sp),
