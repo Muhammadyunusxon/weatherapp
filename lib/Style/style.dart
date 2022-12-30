@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 abstract class Style{
   Style._();
@@ -8,11 +7,15 @@ abstract class Style{
 
   static const whiteColor = Color(0xffFFFFFF);
   static const blackColor = Color(0xff000000);
+  static const redColor = Color(0xffCF222E);
   static const primaryColor =Color(0xffF2F2F7);
   static const brandColor =Color(0xff3E2A7E);
   static const secondaryColor =Color(0xff2E335A);
   static const textColor =Color(0xff9F9FA5);
-
+  static const shimmerColor = Color(0x3348319D);
+  static const  shimmerBaseColor=Color(0x80FFFFFF);
+  static const shimmerHighlightColor = Color(0x33FFFFFF);
+  static const borderColor =  Color(0xff1C1B33);
 
   // ------------------ Gradient -----------------//
   static const primaryGradient = LinearGradient(
@@ -44,51 +47,8 @@ abstract class Style{
       color: Style.whiteColor.withOpacity(0.1),
     )
   ];
+  
+  static BorderRadius primaryRadius= BorderRadius.circular(10);
 
-
-  static textStyleNormal(
-      {double size = 16, Color textColor = primaryColor, bool isDone = false}) {
-    return GoogleFonts.manrope(
-        fontSize: size,
-        color: textColor,
-        fontWeight: FontWeight.normal,
-        decoration: isDone ? TextDecoration.lineThrough : TextDecoration.none);
-  }
-
-  static textStyleSemiBold(
-      {double size = 16, Color textColor = primaryColor, bool isDone = false}) {
-    return GoogleFonts.manrope(
-        fontSize: size,
-        color: textColor,
-        fontWeight: FontWeight.w600,
-        decoration: isDone ? TextDecoration.lineThrough : TextDecoration.none);
-  }
-
-  static textStyleBold(
-      {double size = 18, Color textColor = primaryColor, bool isDone = false}) {
-    return GoogleFonts.manrope(
-        fontSize: size,
-        color: textColor,
-        fontWeight: FontWeight.bold,
-        decoration: isDone ? TextDecoration.lineThrough : TextDecoration.none);
-  }
-
-  static textStyleRegular(
-      {double size = 16, Color textColor = primaryColor, bool isDone = false}) {
-    return GoogleFonts.manrope(
-        fontSize: size,
-        color: textColor,
-        fontWeight: FontWeight.w400,
-        decoration: isDone ? TextDecoration.lineThrough : TextDecoration.none);
-  }
-
-  static textStyleThin(
-      {double size = 16, Color textColor = primaryColor, bool isDone = false}) {
-    return GoogleFonts.manrope(
-        fontSize: size,
-        color: textColor,
-        fontWeight: FontWeight.w300,
-        decoration: isDone ? TextDecoration.lineThrough : TextDecoration.none);
-  }
 
 }
