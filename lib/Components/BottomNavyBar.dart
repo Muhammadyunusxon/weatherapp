@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:weather/Pages/MapPage.dart';
+import 'package:weather/store/local_store.dart';
 
 import '../Pages/addLocationPage.dart';
 
@@ -38,7 +40,7 @@ class BottomNavyBar extends StatelessWidget {
             right: 140.w,
             bottom: 0,
             child: ClipRRect(
-              borderRadius:  BorderRadius.circular(100),
+              borderRadius: BorderRadius.circular(100),
               child: GestureDetector(
                 onTap: () {
                   Navigator.of(context).push(MaterialPageRoute(
@@ -55,7 +57,11 @@ class BottomNavyBar extends StatelessWidget {
             top: 33.h,
             bottom: 25.h,
             child: InkWell(
-              onTap: () {},
+              onTap: () async {
+                double lat= await LocalStore.getLat();
+                double lon= await LocalStore.getLon();
+                Navigator.of(context).push(MaterialPageRoute(builder: (_)=>MapPage(lat: lat, lon: lon)));
+              },
               child: SizedBox(
                   height: 102.h,
                   child: SvgPicture.asset('assets/svg/Symbol.svg')),

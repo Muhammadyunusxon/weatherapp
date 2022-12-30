@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:weather/Components/backgraund.dart';
-
+import 'package:weather/Components/background.dart';
+import 'package:weather/Pages/HomePage.dart';
+import '../Repository/get_Information.dart';
 import '../Style/style.dart';
-import 'HomePage.dart';
+import '../Style/textStyle.dart';
+import '../store/local_store.dart';
 
 class AddLocationPage extends StatefulWidget {
   const AddLocationPage({Key? key}) : super(key: key);
@@ -36,42 +37,63 @@ class _AddLocationPageState extends State<AddLocationPage> {
                 setState(() {});
               },
               controller: textEditingController,
-              style: Style.textStyleNormal(textColor: Style.whiteColor),
+              style: PrimaryTextStyle.normal(textColor: Style.whiteColor),
               decoration: InputDecoration(
                   filled: true,
                   fillColor: const Color(0xff2E335A).withOpacity(0.95),
                   border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.r),
-                      borderSide: const BorderSide(color: Color(0xff1C1B33))),
+                      borderRadius: Style.primaryRadius,
+                      borderSide: BorderSide(
+                          color: locateEmpty
+                              ? Style.redColor
+                              : Style.borderColor)),
                   enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.r),
+                      borderRadius: Style.primaryRadius,
                       borderSide: BorderSide(
-                          color: locateEmpty ? Colors.red : Color(0xff1C1B33))),
+                          color: locateEmpty
+                              ? Style.redColor
+                              : Style.borderColor)),
                   focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.r),
+                      borderRadius: Style.primaryRadius,
                       borderSide: BorderSide(
-                          color: locateEmpty ? Colors.red : Color(0xff1C1B33))),
+                          color: locateEmpty
+                              ? Style.redColor
+                              : Style.borderColor)),
                   contentPadding:
                       const EdgeInsets.symmetric(vertical: 7, horizontal: 12),
                   hintText: "Locate",
-                  hintStyle: Style.textStyleNormal(
-                      textColor: Style.textColor)),
+                  hintStyle:
+                      PrimaryTextStyle.normal(textColor: Style.textColor)),
             ),
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Style.brandColor,
-        onPressed: () {
+        onPressed: () async {
           if (textEditingController.text.isNotEmpty) {
+            var data = await GetInformationRepository.getInformationWeather(
+                textEditingController.text);
+
+            LocalStore.setCountry(textEditingController.text);
+            // ignore: use_build_context_synchronously
             Navigator.pushAndRemoveUntil(
                 context,
                 MaterialPageRoute(
-                  builder: (_) => HomePage(
-                    location: textEditingController.text,
-                  ),
+                  builder: (_) => const HomePage(),
                 ),
                 (route) => false);
+            if (data["error"] == null) {
+            } else {
+              // ignore: use_build_context_synchronously
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    data["error"].toString(),
+                  ),
+                ),
+              );
+            }
           } else {
             locateEmpty = true;
             setState(() {});

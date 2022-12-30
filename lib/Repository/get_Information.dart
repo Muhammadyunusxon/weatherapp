@@ -1,3 +1,5 @@
+
+
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -9,10 +11,10 @@ class GetInformationRepository {
   static int? status;
   static String? error;
 
-  static getInformation(String country) async {
+  static getInformationWeather(String country) async {
     try {
       final url = Uri.parse(
-          "https://api.weatherapi.com/v1/forecast.json?key=0aafe5ca2dc742cb8d7125331222212&q=$country");
+          "https://api.weatherapi.com/v1/forecast.json?key=34756a8dd06a496e9b181309222812%20&q=$country&days=10");
       final res = await http.get(url);
       var data;
       if (res.statusCode == 200) {
@@ -21,8 +23,8 @@ class GetInformationRepository {
       } else {
         status = res.statusCode;
       }
-      WeatherModel info = WeatherModel.fromJson(data);
-      return info;
+
+      return data;
     } catch (s) {
       error=s.toString();
       print(s);

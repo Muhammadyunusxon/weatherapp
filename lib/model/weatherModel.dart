@@ -11,7 +11,7 @@ class WeatherModel {
   Current? current;
   Forecast? forecast;
 
-  factory WeatherModel.fromJson(Map<String, dynamic> json) => WeatherModel(
+  factory WeatherModel.fromJson(Map<dynamic, dynamic> json) => WeatherModel(
         location: Location.fromJson(json["location"]),
         current: Current.fromJson(json["current"]),
         forecast: Forecast.fromJson(json["forecast"]),

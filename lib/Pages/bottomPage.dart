@@ -7,11 +7,12 @@ import 'package:weather/model/weatherModel.dart';
 
 import '../Components/ShimmerItem.dart';
 import '../Style/style.dart';
+import '../Style/textStyle.dart';
 
 class BottomPage extends StatelessWidget {
   final WeatherModel? weatherInfo;
   final bool isLoading;
-  const BottomPage({Key? key, required this.weatherInfo, required this.isLoading}) : super(key: key);
+  const BottomPage({Key? key,this.weatherInfo, required this.isLoading}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -73,7 +74,7 @@ class BottomPage extends StatelessWidget {
                             6.horizontalSpace,
                             Text(
                               'UV INDEX',
-                              style: Style.textStyleNormal(
+                              style: PrimaryTextStyle.normal(
                                 size: 14.sp,
                                 textColor: Style.whiteColor.withOpacity(0.6),
                               ),
@@ -86,13 +87,13 @@ class BottomPage extends StatelessWidget {
                                   .split('.')
                                   .first ??
                               '',
-                          style: Style.textStyleNormal(
+                          style: PrimaryTextStyle.normal(
                             size: 30.sp,
                           ),
                         ),
                         Text(
                           'Moderate',
-                          style: Style.textStyleNormal(
+                          style: PrimaryTextStyle.normal(
                             size: 20.sp,
                           ),
                         ),
@@ -105,7 +106,7 @@ class BottomPage extends StatelessWidget {
                           6.horizontalSpace,
                           Text(
                             'SUNRISE',
-                            style: Style.textStyleNormal(
+                            style: PrimaryTextStyle.normal(
                               size: 14.sp,
                               textColor: Style.whiteColor.withOpacity(0.6),
                             ),
@@ -116,14 +117,14 @@ class BottomPage extends StatelessWidget {
                         weatherInfo?.forecast?.forecastday?.first.astro
                             ?.sunrise ??
                             '',
-                        style: Style.textStyleNormal(
+                        style: PrimaryTextStyle.normal(
                           size: 30.sp,
                         ),
                       ),
                       const Spacer(),
                       Text(
                         'Sunset ${weatherInfo?.forecast?.forecastday?.first.astro?.sunset}',
-                        style: Style.textStyleNormal(
+                        style: PrimaryTextStyle.normal(
                           size: 14.sp,
                         ),
                       ),

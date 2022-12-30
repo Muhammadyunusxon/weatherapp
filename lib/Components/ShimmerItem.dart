@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
 
+import '../Style/style.dart';
+
 class ShimmerItem extends StatelessWidget {
   final double height;
   final double width;
@@ -12,12 +14,12 @@ class ShimmerItem extends StatelessWidget {
       width: width,
       height: height,
       child: Shimmer.fromColors(
-        baseColor: Colors.white.withOpacity(0.5),
-        highlightColor:  Colors.white.withOpacity(0.2),
+        baseColor: Style.shimmerBaseColor,
+        highlightColor:  Style.shimmerHighlightColor,
         child: Container(
           width: width,
           height: height,
-          color: const Color(0xff48319D).withOpacity(0.2)
+          color: Style.shimmerColor
 
         ),
       ),

@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:weather/model/weatherModel.dart';
 
 import '../Style/style.dart';
+import '../Style/textStyle.dart';
 class HourlyComponent extends StatelessWidget {
   final WeatherModel? weatherInfo;
   final int index;
@@ -49,14 +50,14 @@ class HourlyComponent extends StatelessWidget {
                   ?.first.hour?[index].time
                   ?.substring(10) ??
                   '',
-              style: Style.textStyleNormal(size: 15.sp),
+              style: PrimaryTextStyle.normal(size: 15.sp),
             ),
             Image.network(
                 "https:${weatherInfo?.forecast?.forecastday?.first.hour?[index].condition?.icon?? ''}",
             ),
             Text(
               '${weatherInfo?.forecast?.forecastday?.first.hour?[index].tempC?.toString().split('.')[0] ?? ''}°',
-              style: Style.textStyleNormal(size: 20.sp),
+              style: PrimaryTextStyle.normal(size: 20.sp),
             ),
           ],
         ),

@@ -3,7 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 abstract class LocalStore {
   LocalStore._();
 
-  static Future setCountry(String country) async {
+  static Future<void> setCountry(String country) async {
     SharedPreferences store = await SharedPreferences.getInstance();
     List<String> list = [];
     list = (store.getStringList("country") ?? []).toList(growable: true);
@@ -28,4 +28,25 @@ abstract class LocalStore {
     SharedPreferences store = await SharedPreferences.getInstance();
     store.remove("country");
   }
+
+
+  static Future<void> setLat(double lat ) async {
+    SharedPreferences store = await SharedPreferences.getInstance();
+    store.setDouble("lat", lat);
+  }
+
+  static Future<double> getLat() async {
+    SharedPreferences store = await SharedPreferences.getInstance();
+    return store.getDouble("lat") ?? 0;
+  }
+
+  static Future<void> setLon(double lon ) async {
+    SharedPreferences store = await SharedPreferences.getInstance();
+    store.setDouble("lon", lon);
+  }
+  static Future<double> getLon() async {
+    SharedPreferences store = await SharedPreferences.getInstance();
+    return store.getDouble("lon") ?? 0;
+  }
+
 }
