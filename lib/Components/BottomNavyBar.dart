@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:weather/Pages/MapPage.dart';
+import 'package:weather/Pages/MenuPage.dart';
 import 'package:weather/store/local_store.dart';
 
 import '../Pages/addLocationPage.dart';
@@ -72,7 +73,9 @@ class BottomNavyBar extends StatelessWidget {
             top: 33.h,
             bottom: 25.h,
             child: InkWell(
-              onTap: () {},
+              onTap: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (_)=>const MenuPage()));
+              },
               child: SizedBox(
                 height: 102.h,
                 child: SvgPicture.asset('assets/svg/Hover.svg'),

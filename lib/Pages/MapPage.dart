@@ -3,6 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:osm_nominatim/osm_nominatim.dart';
 import 'package:weather/Pages/HomePage.dart';
 import 'package:weather/Repository/get_Information.dart';
+import 'package:weather/Style/style.dart';
 import '../store/local_store.dart';
 
 class MapPage extends StatefulWidget {
@@ -21,6 +22,7 @@ class _MapPageState extends State<MapPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Style.brandColor,
         title: const Text("Google map"),
       ),
       body: GoogleMap(

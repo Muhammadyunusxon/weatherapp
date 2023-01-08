@@ -34,6 +34,14 @@ abstract class Style{
         Color(0xffE8E8E8),
         Color(0xffCDCDCD),
       ]);
+  static const backgroundGradient = LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        Color(0xff2E335A),
+        Color(0xff1C1B33),
+      ]);
+
 
   // ------------------ Gradient -----------------//
   static List<BoxShadow> hourlyShadow = [

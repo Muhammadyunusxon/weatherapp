@@ -13,6 +13,7 @@ class PrimaryTextStyle {
       fontSize: size,
       color: textColor,
       fontWeight: FontWeight.normal,
+      decoration: TextDecoration.none,
     );
   }
 
@@ -24,6 +25,7 @@ class PrimaryTextStyle {
       fontSize: size,
       color: textColor,
       fontWeight: FontWeight.w600,
+      decoration: TextDecoration.none,
     );
   }
 
@@ -35,6 +37,7 @@ class PrimaryTextStyle {
       fontSize: size,
       color: textColor,
       fontWeight: FontWeight.bold,
+      decoration: TextDecoration.none,
     );
   }
 
@@ -46,6 +49,7 @@ class PrimaryTextStyle {
       fontSize: size,
       color: textColor,
       fontWeight: FontWeight.w400,
+      decoration: TextDecoration.none,
     );
   }
 
@@ -57,6 +61,7 @@ class PrimaryTextStyle {
       fontSize: size,
       color: textColor,
       fontWeight: FontWeight.w300,
+      decoration: TextDecoration.none,
     );
   }
 }

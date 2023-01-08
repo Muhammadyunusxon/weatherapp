@@ -15,19 +15,19 @@ import '../store/local_store.dart';
 import 'bottomPage.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({Key? key}) : super(key: key);
+  final int changePage;
+
+  const HomePage({Key? key, this.changePage = 0}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage>
-    with TickerProviderStateMixin {
+class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
+  final PageController _pageController = PageController();
   RefreshController controller = RefreshController();
-  late TabController tabController;
   List<WeatherModel> listOfWeather = [];
   bool isLoading = true;
-  bool isCancelButton = false;
   double lat = 0;
   double lon = 0;
   List<String> listOfCountry = [];
@@ -35,6 +35,7 @@ class _HomePageState extends State<HomePage>
   int? status;
   String? error;
   final RefreshController _refreshController = RefreshController();
+
   Future<bool> _determinePosition() async {
     LocationPermission permission;
     permission = await Geolocator.checkPermission();
@@ -86,13 +87,14 @@ class _HomePageState extends State<HomePage>
     isLoading = true;
     setState(() {});
     await _determinePosition();
-    List<String> listOfStore = await LocalStore.getCountry();
-    listOfCountry.addAll(listOfStore);
+    List<String> listOfCountry = await LocalStore.getCountry();
+    listOfWeather.clear();
     for (int i = 0; i < listOfCountry.length; i++) {
       WeatherModel model = await getWeatherInfo(listOfCountry[i]);
       listOfWeather.add(model);
     }
-    tabController = TabController(length: listOfCountry.length, vsync: this);
+    _pageController.animateToPage(widget.changePage,
+        duration: const Duration(seconds: 500), curve: Curves.bounceInOut);
     isLoading = false;
     setState(() {});
   }
@@ -131,156 +133,178 @@ class _HomePageState extends State<HomePage>
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     for (int i = 0;
-                    i <= (isLoading ? 1 : listOfWeather.length - 1);
-                    i++)
+                        i <= (isLoading ? 1 : listOfWeather.length - 1);
+                        i++)
                       i == 0
                           ? Icon(
-                        Icons.near_me_rounded,
-                        size: 12,
-                        color: changePage == i
-                            ? Style.whiteColor
-                            : Style.shimmerBaseColor,
-                      )
+                              Icons.near_me_rounded,
+                              size: 12,
+                              color: changePage == i
+                                  ? Style.whiteColor
+                                  : Style.shimmerBaseColor,
+                            )
                           : AnimatedContainer(
-                        duration: const Duration(milliseconds: 500),
-                        height: 6,
-                        width: changePage == i ? 12 : 6,
-                        margin: const EdgeInsets.symmetric(horizontal: 4),
-                        decoration: BoxDecoration(
-                          color: changePage == i
-                              ? Style.whiteColor
-                              : Style.shimmerBaseColor,
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
+                              duration: const Duration(milliseconds: 500),
+                              height: 6,
+                              width: changePage == i ? 12 : 6,
+                              margin: const EdgeInsets.symmetric(horizontal: 4),
+                              decoration: BoxDecoration(
+                                color: changePage == i
+                                    ? Style.whiteColor
+                                    : Style.shimmerBaseColor,
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ),
                   ],
                 ),
                 18.verticalSpace,
                 Expanded(
                   child: PageView.builder(
+                      controller: _pageController,
                       onPageChanged: (i) {
                         changePage = i;
                         setState(() {});
                       },
                       itemCount: isLoading ? 2 : listOfWeather.length,
                       itemBuilder: (context, index) {
-                        return error == "Failed host lookup: 'api.weatherapi.com'"
+                        return error ==
+                                "Failed host lookup: 'api.weatherapi.com'"
                             ? Center(
-                            child: Text(
-                              'Oops!Weather app did not respond: please try again!',
-                              style: PrimaryTextStyle.semiBold(size: 36.sp),
-                            ))
+                                child: Text(
+                                'Oops!Weather app did not respond: please try again!',
+                                style: PrimaryTextStyle.semiBold(size: 36.sp),
+                              ))
                             : status == 400
-                            ? Center(
-                            child: Padding(
-                              padding: EdgeInsets.symmetric(horizontal: 18.w),
-                              child: Text(
-                                'Oops! Not found please try again!',
-                                style: PrimaryTextStyle.semiBold(size: 32.sp),
-                              ),
-                            ))
-                            :  Column(
-                          children: [
-                            isLoading
-                                ? Padding(
-                              padding: const EdgeInsets.only(
-                                  right: 12, bottom: 2),
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(26),
-                                  child: const ShimmerItem(
-                                      height: 36, width: 175)),
-                            )
-                                : Text(
-                              listOfWeather[index].location?.name ?? "",
-                              style: PrimaryTextStyle.semiBold(size: 28.sp),
-                            ),
-                            isLoading
-                                ? Padding(
-                              padding: const EdgeInsets.only(
-                                  right: 12, bottom: 12, top: 12),
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(30),
-                                  child: const ShimmerItem(
-                                      height: 90, width: 80)),
-                            )
-                                : Text(
-                              '${listOfWeather[index].current?.tempC.toString().split('.')[0] ?? ""}°',
-                              style: PrimaryTextStyle.thin(size: 92.sp),
-                            ),
-                            isLoading
-                                ? Padding(
-                              padding: const EdgeInsets.only(
-                                  right: 12, bottom: 2, top: 2),
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(26),
-                                  child: const ShimmerItem(
-                                      height: 24, width: 120)),
-                            )
-                                : Text(
-                              listOfWeather[index]
-                                  .current
-                                  ?.condition
-                                  ?.text ??
-                                  "",
-                              style: PrimaryTextStyle.semiBold(
-                                  size: 20.sp,
-                                  textColor:
-                                  Style.whiteColor.withOpacity(0.5)),
-                            ),
-                            isLoading
-                                ? Padding(
-                              padding:
-                              const EdgeInsets.only(right: 12, top: 2),
-                              child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(26),
-                                  child: const ShimmerItem(
-                                      height: 22, width: 100)),
-                            )
-                                : Text(
-                              'H:${listOfWeather[index].forecast?.forecastday?.first.day?.maxtempC.toString().split('.').first ?? " "}° '
-                                  ' L:${listOfWeather[index].forecast?.forecastday?.first.day?.mintempC.toString().split('.').first ?? " "}°',
-                              style: PrimaryTextStyle.semiBold(size: 18.sp),
-                            ),
-                            Expanded(
-                                child: SizedBox(
-                                  width: MediaQuery.of(context).size.width,
-                                  child: Stack(
+                                ? Center(
+                                    child: Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 18.w),
+                                    child: Text(
+                                      'Oops! Not found please try again!',
+                                      style: PrimaryTextStyle.semiBold(
+                                          size: 32.sp),
+                                    ),
+                                  ))
+                                : Column(
                                     children: [
-                                      Positioned(
-                                          left: 10.w,
-                                          right: 10.w,
-                                          child:
-                                          Image.asset('assets/image/House.png')),
-                                      Positioned(
-                                        bottom: 0,
-                                        child: Container(
-                                          height: 500.h,
-                                          width: MediaQuery.of(context).size.width,
-                                          decoration: const BoxDecoration(
-                                            borderRadius: BorderRadius.vertical(
-                                              top: Radius.circular(30),
+                                      isLoading
+                                          ? Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 12, bottom: 2),
+                                              child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(26),
+                                                  child: const ShimmerItem(
+                                                      height: 36, width: 175)),
+                                            )
+                                          : Text(
+                                              listOfWeather[index]
+                                                      .location
+                                                      ?.name ??
+                                                  "",
+                                              style: PrimaryTextStyle.semiBold(
+                                                  size: 28.sp),
                                             ),
-                                            gradient: Style.primaryGradient,
-                                          ),
+                                      isLoading
+                                          ? Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 12,
+                                                  bottom: 12,
+                                                  top: 12),
+                                              child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(30),
+                                                  child: const ShimmerItem(
+                                                      height: 90, width: 80)),
+                                            )
+                                          : Text(
+                                              '${listOfWeather[index].current?.tempC.toString().split('.')[0] ?? ""}°',
+                                              style: PrimaryTextStyle.thin(
+                                                  size: 92.sp),
+                                            ),
+                                      isLoading
+                                          ? Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 12, bottom: 2, top: 2),
+                                              child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(26),
+                                                  child: const ShimmerItem(
+                                                      height: 24, width: 120)),
+                                            )
+                                          : Text(
+                                              listOfWeather[index]
+                                                      .current
+                                                      ?.condition
+                                                      ?.text ??
+                                                  "",
+                                              style: PrimaryTextStyle.semiBold(
+                                                  size: 20.sp,
+                                                  textColor: Style.whiteColor
+                                                      .withOpacity(0.5)),
+                                            ),
+                                      isLoading
+                                          ? Padding(
+                                              padding: const EdgeInsets.only(
+                                                  right: 12, top: 2),
+                                              child: ClipRRect(
+                                                  borderRadius:
+                                                      BorderRadius.circular(26),
+                                                  child: const ShimmerItem(
+                                                      height: 22, width: 100)),
+                                            )
+                                          : Text(
+                                              'H:${listOfWeather[index].forecast?.forecastday?.first.day?.maxtempC.toString().split('.').first ?? " "}° '
+                                              ' L:${listOfWeather[index].forecast?.forecastday?.first.day?.mintempC.toString().split('.').first ?? " "}°',
+                                              style: PrimaryTextStyle.semiBold(
+                                                  size: 18.sp),
+                                            ),
+                                      Expanded(
+                                          child: SizedBox(
+                                        width:
+                                            MediaQuery.of(context).size.width,
+                                        child: Stack(
+                                          children: [
+                                            Positioned(
+                                                left: 10.w,
+                                                right: 10.w,
+                                                child: Image.asset(
+                                                    'assets/image/House.png')),
+                                            Positioned(
+                                              bottom: 0,
+                                              child: Container(
+                                                height: 500.h,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                decoration: const BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.vertical(
+                                                    top: Radius.circular(30),
+                                                  ),
+                                                  gradient:
+                                                      Style.primaryGradient,
+                                                ),
+                                              ),
+                                            ),
+                                            Positioned(
+                                              bottom: -10,
+                                              left: 0,
+                                              right: 0,
+                                              child: SizedBox(
+                                                  height: 350.h,
+                                                  child: BottomPage(
+                                                    weatherInfo: isLoading
+                                                        ? null
+                                                        : listOfWeather[index],
+                                                    isLoading: isLoading,
+                                                  )),
+                                            ),
+                                          ],
                                         ),
-                                      ),
-                                      Positioned(
-                                        bottom: -10,
-                                        left: 0,
-                                        right: 0,
-                                        child: SizedBox(
-                                            height: 350.h,
-                                            child: BottomPage(
-                                              weatherInfo: isLoading
-                                                  ? null
-                                                  : listOfWeather[index],
-                                              isLoading: isLoading,
-                                            )),
-                                      ),
+                                      )),
                                     ],
-                                  ),
-                                )),
-                          ],);
+                                  );
                       }),
                 ),
               ],
